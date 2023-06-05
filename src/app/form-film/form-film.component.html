@@ -1,0 +1,36 @@
+<form [formGroup]="searchForm" #myForm="ngForm"  (ngSubmit)="onSubmit()">
+
+  <div formGroupName="search">
+    <div>
+      <label for="identifier">Identifiant
+      <input type="text" id="identifier" formControlName="identifier"></label>
+    </div>
+    <div>
+      <label for="title">Titre
+      <input type="text" id="title" formControlName="title"></label>
+    </div>
+    <div *ngIf="searchForm.get('search')?.errors && !searchForm.get('search')?.pristine" class="error-msg">
+      <div [hidden]="!searchForm.get('search')?.invalid">{{ searchForm.get("search")?.errors?.['search'].rules }}</div>
+  </div>
+  </div>
+  <div>
+    <label for="type">Type</label>
+    <select formControlName="type">
+      <option value="film">Film</option>
+      <option value="série">Série</option>
+      <option value="épisode">Épisode</option>
+    </select>
+  </div>
+  <div>
+    <label for="releaseYear">Année de sortie</label>
+    <input type="number" formControlName="releaseYear">
+  </div>
+  <div>
+    <label for="format">Fiche</label>
+    <select formControlName="format" [disabled]="!searchForm.get('search.identifier')?.value && !searchForm.get('search.title')?.value">
+      <option value="complète">Complète</option>
+      <option value="courte">Courte</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="!searchForm.valid">Rechercher</button>
+</form>
